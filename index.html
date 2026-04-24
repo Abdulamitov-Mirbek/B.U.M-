@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Credit Scoring Demo</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <main class="container">
+        <h1>Кредитный скоринг</h1>
+        <p>Минимальная демонстрация для тестовой сборки контейнера.</p>
+
+        <section class="card">
+            <h2>Пример данных</h2>
+            <button id="load-data">Загрузить данные</button>
+            <pre id="data-output" class="output"></pre>
+        </section>
+
+        <section class="card">
+            <h2>Расчёт скоринга</h2>
+            <label>
+                Доход, ₽
+                <input id="income" type="number" min="0" value="100000" />
+            </label>
+            <label>
+                Сумма кредита, ₽
+                <input id="loan" type="number" min="0" value="500000" />
+            </label>
+            <label>
+                Кредитная история (0–1)
+                <input id="history" type="range" min="0" max="1" step="0.01" value="0.8" />
+                <span id="history-value">0.80</span>
+            </label>
+            <button id="score-btn">Посчитать</button>
+            <div id="score-result" class="result"></div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+# Используем самый легкий, быстрый и безопасный образ веб-сервера (Alpine Linux + NGINX)
+FROM nginx:alpine
+
+# Добавляем метаданные
+LABEL maintainer="Risk Analyzer App"
+LABEL version="1.0"
+LABEL description="Система кредитного скоринга с ML-обучением в браузере"
+
+# Копируем оптимизированный конфигурационный файл Nginx
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Очищаем стандартную папку html в nginx
+RUN rm -rf /usr/share/nginx/html/*
+
+# Копируем исходный код фронтенда в контейнер
+COPY index.html /usr/share/nginx/html/
+COPY styles.css /usr/share/nginx/html/
+COPY app.js /usr/share/nginx/html/
+
+# Копируем директорию с датасетом
+COPY data/ /usr/share/nginx/html/data/
+
+# Даем права Nginx для чтения файлов (повышает отказоустойчивость)
+RUN chown -R nginx:nginx /usr/share/nginx/html && \
+    chmod -R 755 /usr/share/nginx/html
+
+# Экспонируем порт 80
+EXPOSE 80
+
+# Здоровье контейнера (Healthcheck)
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD wget --quiet --tries=1 --spider http://localhost/ || exit 1
+
+# Запуск Nginx в нормальном (не-daemon) режиме
+CMD ["nginx", "-g", "daemon off;"]

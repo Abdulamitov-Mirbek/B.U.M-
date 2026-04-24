@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Иван Иванов",
+    "income": 120000,
+    "loan_amount": 500000,
+    "credit_score": 0.85,
+    "status": "approved"
+  },
+  {
+    "name": "Мария Петрова",
+    "income": 85000,
+    "loan_amount": 250000,
+    "credit_score": 0.67,
+    "status": "approved"
+  },
+  {
+    "name": "Алексей Смирнов",
+    "income": 45000,
+    "loan_amount": 300000,
+    "credit_score": 0.45,
+    "status": "rejected"
+  }
+]
