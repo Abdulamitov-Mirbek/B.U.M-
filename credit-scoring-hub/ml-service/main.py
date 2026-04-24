@@ -84,6 +84,10 @@ def startup_event() -> None:
 def health() -> dict:
     return {"status": "ok", "model_loaded": model is not None}
 
+@app.get("/api/health")
+def api_health() -> dict:
+    return {"status": "ok", "model_loaded": model is not None}
+
 
 @app.post("/predict")
 def predict(features: CreditFeatures) -> PredictionResponse:
