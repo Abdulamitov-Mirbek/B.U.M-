@@ -4,24 +4,52 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:mirbek777389866@localhost:5432/credit_scoring?schema=public"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String    @id @default(cuid())
+  email          String    @unique
+  username       String    @unique
+  passwordHash   String    @map("password_hash")
+  fullName       String?   @map("full_name")
+  phone          String?
+  role           String    @default("USER")
+  isActive       Boolean   @default(true) @map("is_active")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @updatedAt @map("updated_at")
+  
+  applications   Application[]
+  
+  @@map("users")
 }
 
 model Application {
   id                 String   @id @default(cuid())
-  userId             String
+  userId             String   @map("user_id")
   age                Int
-  monthlyIncome      Float
-  loanAmount         Float
-  loanTermMonths     Int
-  creditHistoryYears Float
-  currentDebt        Float
-  employmentYears    Float
+  monthlyIncome      Float    @map("monthly_income")
+  loanAmount         Float    @map("loan_amount")
+  loanTermMonths     Int      @map("loan_term_months")
+  creditHistoryYears Float    @map("credit_history_years")
+  currentDebt        Float    @map("current_debt")
+  employmentYears    Float    @map("employment_years")
   dependents         Int
   result             String
   probability        Float
   score              Float
-  riskLevel          String
-  recommendedAmount  Float
-  createdAt          DateTime @default(now())
+  riskLevel          String   @map("risk_level")
+  recommendedAmount  Float    @map("recommended_amount")
+  status             String   @default("PENDING")
+  adminNotes         String?  @map("admin_notes")
+  reviewedBy         String?  @map("reviewed_by")
+  reviewedAt         DateTime? @map("reviewed_at")
+  createdAt          DateTime @default(now()) @map("created_at")
+  
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+  @@index([status])
+  @@index([createdAt])
+  @@map("applications")
 }

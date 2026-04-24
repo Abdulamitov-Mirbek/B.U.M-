@@ -5,13 +5,72 @@
 :root {
   color: #e2e8f0;
   background:
-    radial-gradient(circle at top, rgba(14, 165, 233, 0.18), transparent 35%),
-    linear-gradient(135deg, #020617 0%, #0f172a 50%, #111827 100%);
+    radial-gradient(circle at top, rgba(34, 211, 238, 0.14), transparent 22%),
+    radial-gradient(circle at 85% 15%, rgba(148, 163, 184, 0.08), transparent 20%),
+    linear-gradient(135deg, #030712 0%, #0b1120 50%, #111827 100%);
 }
 
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  font-family: "Segoe UI", sans-serif;
+  font-family: "Segoe UI", "Trebuchet MS", sans-serif;
+  background: transparent;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.hero-panel {
+  background:
+    linear-gradient(145deg, rgba(10, 15, 28, 0.95), rgba(18, 29, 53, 0.86)),
+    radial-gradient(circle at top left, rgba(34, 211, 238, 0.1), transparent 28%);
+  box-shadow: 0 30px 80px rgba(2, 6, 23, 0.45);
+}
+
+.city-grid {
+  position: relative;
+}
+
+.city-grid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.65), transparent 85%);
+  pointer-events: none;
+}
+
+.city-glow {
+  position: relative;
+}
+
+.city-glow::after {
+  content: "";
+  position: absolute;
+  right: -80px;
+  top: -60px;
+  width: 240px;
+  height: 240px;
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.16), transparent 65%);
+  filter: blur(24px);
+  pointer-events: none;
+}
+
+.city-card {
+  background:
+    linear-gradient(160deg, rgba(15, 23, 42, 0.82), rgba(17, 24, 39, 0.6)),
+    linear-gradient(120deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 60px rgba(2, 6, 23, 0.35);
+  backdrop-filter: blur(18px);
+}
+
+.city-stat-line {
+  height: 1px;
+  background: linear-gradient(to right, rgba(34, 211, 238, 0), rgba(34, 211, 238, 0.5), rgba(34, 211, 238, 0));
 }

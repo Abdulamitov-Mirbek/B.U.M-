@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import axios from "axios";
-import { Request, Response } from "express";
+import { Response } from "express";
+import { AuthRequest } from "../middleware/auth";
 
 const prisma = new PrismaClient();
 const mlServiceUrl = process.env.ML_SERVICE_URL || "http://localhost:8000";
@@ -35,18 +36,57 @@ const isValidPayload = (payload: ApplicationPayload) =>
     .filter(([key]) => key !== "user_id")
     .every(([, value]) => Number.isFinite(value));
 
-export const scoreCredit = async (req: Request, res: Response) => {
+const ensureApplicationUser = async (userId: string) => {
+  const existing = await prisma.user.findUnique({
+    where: { id: userId }
+  });
+
+  if (existing) {
+    return existing;
+  }
+
+  const guestEmail = `${userId}@guest.local`;
+  const guestUsername = `guest_${userId}`.slice(0, 50);
+
+  const userByEmail = await prisma.user.findUnique({
+    where: { email: guestEmail }
+  });
+
+  if (userByEmail) {
+    return userByEmail;
+  }
+
+  return prisma.user.create({
+    data: {
+      id: userId,
+      email: guestEmail,
+      username: guestUsername,
+      passwordHash: "guest-account",
+      fullName: `Guest ${userId}`,
+      role: "USER"
+    }
+  });
+};
+
+export const scoreCredit = async (req: AuthRequest, res: Response) => {
   try {
     const payload = normalizePayload(req.body as Record<string, unknown>);
     if (!isValidPayload(payload)) {
       return res.status(400).json({ message: "Invalid application payload" });
     }
 
-    const { data } = await axios.post(`${mlServiceUrl}/predict`, payload);
+    const effectiveUserId = req.user?.userId || payload.user_id;
+    await ensureApplicationUser(effectiveUserId);
+
+    const { user_id: _ignoredUserId, ...mlPayload } = payload;
+    const { data } = await axios.post(`${mlServiceUrl}/predict`, {
+      ...mlPayload,
+      user_id: effectiveUserId
+    });
 
     const saved = await prisma.application.create({
       data: {
-        userId: payload.user_id,
+        userId: effectiveUserId,
         age: payload.age,
         monthlyIncome: payload.monthly_income,
         loanAmount: payload.loan_amount,
@@ -65,6 +105,7 @@ export const scoreCredit = async (req: Request, res: Response) => {
 
     res.json({
       ...data,
+      userId: effectiveUserId,
       applicationId: saved.id
     });
   } catch (error) {
@@ -73,9 +114,14 @@ export const scoreCredit = async (req: Request, res: Response) => {
   }
 };
 
-export const getHistory = async (_req: Request, res: Response) => {
+export const getHistory = async (req: AuthRequest, res: Response) => {
   try {
     const items = await prisma.application.findMany({
+      where: req.user?.userId
+        ? req.user.role === "ADMIN"
+          ? undefined
+          : { userId: req.user.userId }
+        : undefined,
       orderBy: { createdAt: "desc" },
       take: 20
     });
@@ -86,14 +132,23 @@ export const getHistory = async (_req: Request, res: Response) => {
   }
 };
 
-export const getApplicationById = async (req: Request, res: Response) => {
+export const getApplicationById = async (req: AuthRequest, res: Response) => {
   try {
+    const applicationId = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+    if (!applicationId) {
+      return res.status(400).json({ message: "Application id is required" });
+    }
+
     const item = await prisma.application.findUnique({
-      where: { id: req.params.id }
+      where: { id: applicationId }
     });
 
     if (!item) {
       return res.status(404).json({ message: "Application not found" });
+    }
+
+    if (req.user?.userId && req.user.role !== "ADMIN" && item.userId !== req.user.userId) {
+      return res.status(403).json({ message: "Access denied" });
     }
 
     res.json(item);

@@ -1,0 +1,17 @@
+{
+  "title": "Credit Scoring Demo",
+  "heading_main": "Кредитный скоринг",
+  "description": "Минимальная демонстрация для тестовой сборки контейнера.",
+  "sample_heading": "Пример данных",
+  "load_data": "Загрузить данные",
+  "scoring_heading": "Расчёт скоринга",
+  "income_label": "Доход, ₽",
+  "loan_label": "Сумма кредита, ₽",
+  "history_label": "Кредитная история (0–1)",
+  "score_btn": "Посчитать",
+  "score_prefix": "Скоринг:",
+  "good_verdict": "Хорошая вероятность одобрения",
+  "bad_verdict": "Низкая вероятность одобрения",
+  "load_error": "Не удалось загрузить данные",
+  "lang_label": "Язык:"
+}
