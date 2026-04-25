@@ -59,6 +59,16 @@ const text = {
     activate: "Activate",
     approve: "Approve",
     reject: "Reject",
+    statuses: {
+      approved: "Approved",
+      rejected: "Rejected",
+      low: "Low",
+      medium: "Medium",
+      high: "High",
+      PENDING: "Pending",
+      APPROVED: "Approved",
+      REJECTED: "Rejected",
+    },
   },
   ru: {
     dashboard: "Дашборд",
@@ -90,6 +100,57 @@ const text = {
     activate: "Активировать",
     approve: "Одобрить",
     reject: "Отклонить",
+    statuses: {
+      approved: "Одобрено",
+      rejected: "Отклонено",
+      low: "Низкий",
+      medium: "Средний",
+      high: "Высокий",
+      PENDING: "В ожидании",
+      APPROVED: "Одобрено",
+      REJECTED: "Отклонено",
+    },
+  },
+  ky: {
+    dashboard: "Дашборд",
+    categories: "Категориялар",
+    logout: "Чыгуу",
+    loading: "Админ панели жүктөлүүдө...",
+    totalUsers: "Бардык колдонуучулар",
+    totalApplications: "Бардык өтүнмөлөр",
+    approvalRate: "Бекитүү деңгээли",
+    pendingReviews: "Текшерүүнү күтүүдө",
+    applications: "Өтүнмөлөр",
+    users: "Колдонуучулар",
+    date: "Дата",
+    user: "Колдонуучу",
+    amount: "Сумма",
+    probability: "Ыктымалдуулук",
+    risk: "Тобокелдик",
+    result: "Чечим",
+    status: "Статус",
+    actions: "Аракеттер",
+    username: "Логин",
+    email: "Email",
+    fullName: "Толук аты-жөнү",
+    role: "Роль",
+    userApplications: "Өтүнмөлөр",
+    active: "Активдүү",
+    blocked: "Бөгөттөлгөн",
+    block: "Бөгөттөө",
+    activate: "Активдештирүү",
+    approve: "Бекитүү",
+    reject: "Четке кагуу",
+    statuses: {
+      approved: "Бекитилди",
+      rejected: "Четке кагылды",
+      low: "Төмөн",
+      medium: "Орточо",
+      high: "Жогорку",
+      PENDING: "Күтүүдө",
+      APPROVED: "Бекитилди",
+      REJECTED: "Четке кагылды",
+    },
   },
 } as const;
 
@@ -276,7 +337,11 @@ export const AdminPanel: React.FC = () => {
                     <tr key={app.id} className="border-b border-white/5">
                       <td className="py-3 text-sm text-slate-300">
                         {new Date(app.createdAt).toLocaleDateString(
-                          language === "ru" ? "ru-RU" : "en-US",
+                          language === "ru"
+                            ? "ru-RU"
+                            : language === "ky"
+                            ? "ky-KG"
+                            : "en-US",
                         )}
                       </td>
                       <td className="py-3 text-white">{app.user.username}</td>
@@ -288,7 +353,8 @@ export const AdminPanel: React.FC = () => {
                       </td>
                       <td className="py-3">
                         <span className="rounded-full bg-slate-800 px-2 py-1 text-xs font-semibold text-slate-200">
-                          {app.riskLevel}
+                          {t.statuses[app.riskLevel as keyof typeof t.statuses] ||
+                            app.riskLevel}
                         </span>
                       </td>
                       <td className="py-3">
@@ -299,12 +365,14 @@ export const AdminPanel: React.FC = () => {
                               : "text-rose-400"
                           }`}
                         >
-                          {app.result}
+                          {t.statuses[app.result as keyof typeof t.statuses] ||
+                            app.result}
                         </span>
                       </td>
                       <td className="py-3">
                         <span className="rounded-full bg-slate-800 px-2 py-1 text-xs font-semibold text-slate-200">
-                          {app.status}
+                          {t.statuses[app.status as keyof typeof t.statuses] ||
+                            app.status}
                         </span>
                       </td>
                       <td className="py-3">

@@ -45,6 +45,25 @@ const footerContent = {
     },
     copyright: "© 2026 B.U.M Credit Scoring. Все права защищены.",
   },
+  ky: {
+    title: "B.U.M - Кредиттик скоринг борбору",
+    description: "Шаардык каржылык муктаждыктар үчүн заманбап санариптик кредиттөө платформасы",
+    contact: "Байланыш",
+    followUs: "Бизди ээрчиңиз",
+    quickLinks: "Тез шилтемелер",
+    phone: "+996 555 123 456",
+    email: "info@bum-credit.com",
+    address: "Бишкек, Кыргызстан",
+    telegram: "Биздин Telegram ботко кошулуңуз",
+    links: {
+      about: "Биз жөнүндө",
+      privacy: "Купуялык саясаты",
+      terms: "Тейлөө шарттары",
+      faq: "FAQ",
+      support: "Колдоо",
+    },
+    copyright: "© 2026 B.U.M Кредиттик скоринг. Бардык укуктар корголгон.",
+  },
 };
 
 export function Footer({ language }: FooterProps) {

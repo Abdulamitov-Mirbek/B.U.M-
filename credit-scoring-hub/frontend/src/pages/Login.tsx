@@ -27,6 +27,17 @@ const text = {
     noAccount: "Нет аккаунта?",
     create: "Создать аккаунт",
   },
+  ky: {
+    title: "Санариптик банк мейкиндигине кириңиз",
+    email: "Email",
+    password: "Пароль",
+    emailPlaceholder: "Email дарегиңизди киргизиңиз",
+    passwordPlaceholder: "Паролуңузду киргизиңиз",
+    signIn: "Кирүү",
+    signingIn: "Кирүү...",
+    noAccount: "Аккаунтуңуз жокпу?",
+    create: "Аккаунт түзүү",
+  },
 } as const;
 
 export const Login: React.FC = () => {

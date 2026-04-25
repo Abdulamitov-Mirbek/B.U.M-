@@ -11,7 +11,7 @@ import {
   YAxis
 } from "recharts";
 
-type Language = "ru" | "en";
+type Language = "ru" | "en" | "ky";
 
 type FormInputs = {
   user_id: string;
@@ -114,6 +114,13 @@ const text = {
       submit: "Не удалось обработать заявку.",
       invalid: "Заполните все поля корректными числами.",
       unexpected: "Произошла непредвиденная ошибка."
+    },
+    statuses: {
+      approved: "Одобрено",
+      rejected: "Отклонено",
+      low: "Низкий",
+      medium: "Средний",
+      high: "Высокий"
     }
   },
   en: {
@@ -174,6 +181,80 @@ const text = {
       submit: "Unable to process the application.",
       invalid: "Please fill in all fields with valid numbers.",
       unexpected: "An unexpected error occurred."
+    },
+    statuses: {
+      approved: "Approved",
+      rejected: "Rejected",
+      low: "Low",
+      medium: "Medium",
+      high: "High"
+    }
+  },
+  ky: {
+    section: "Өтүнмө",
+    analytics: "Аналитика",
+    review: "Кыскача маалымат",
+    stepPersonal: "Жеке маалыматтар",
+    stepFinancial: "Финансылык параметрлер",
+    subtitlePersonal: "Карыз алуучу жөнүндө негизги маалыматтарды толтуруңуз.",
+    subtitleFinancial: "Кредиттин параметрлерин жана карыз жүгүн көрсөтүңүз.",
+    continue: "Улантуу",
+    back: "Артка",
+    submit: "Скорингге жөнөтүү",
+    loading: "Жөнөтүлүүдө...",
+    latestResult: "Баалоо натыйжасы",
+    emptyResult:
+      "Жөнөтүлгөндөн кийин бул жерде моделдин чечими, тобокелдик деңгээли жана сунушталган сумма пайда болот.",
+    result: "Чечим",
+    probability: "Ыктымалдуулук",
+    risk: "Тобокелдик деңгээли",
+    recommendedAmount: "Сунушталган сумма",
+    applicationId: "Өтүнмө IDси",
+    approvalRate: "Бекитүү деңгээли",
+    avgProbability: "Орточо ыктымалдуулук",
+    avgRecommendation: "Орточо сунуш",
+    totalRequests: "Бардык өтүнмөлөр",
+    profileChart: "Карыз алуучунун профили жана тобокелдик бенчмаркы",
+    scoringDynamics: "Ыктымалдуулуктун динамикасы",
+    placeholders: {
+      user_id: "Мисалы: client-1024",
+      age: "Мисалы: 29",
+      monthly_income: "Мисалы: 12000",
+      loan_amount: "Мисалы: 25000",
+      loan_term_months: "Мисалы: 24",
+      credit_history_years: "Мисалы: 6",
+      current_debt: "Мисалы: 1800",
+      employment_years: "Мисалы: 4",
+      dependents: "Мисалы: 1"
+    },
+    labels: {
+      user_id: "Кардар IDси",
+      age: "Жашы",
+      monthly_income: "Ай сайын алган кирешеси",
+      loan_amount: "Кредиттин суммасы",
+      loan_term_months: "Кредиттин мөөнөтү, ай",
+      credit_history_years: "Кредиттик тарыхы, жыл",
+      current_debt: "Учурдагы карызы",
+      employment_years: "Иш тажрыйбасы, жыл",
+      dependents: "Багуусундагылар"
+    },
+    profileAxis: {
+      stability: "Туруктуулук",
+      affordability: "Төлөө жөндөмдүүлүгү",
+      history: "Кредиттик тарыхы",
+      debtLoad: "Карыз жүгү"
+    },
+    errors: {
+      submit: "Өтүнмөнү иштеп чыгуу мүмкүн болгон жок.",
+      invalid: "Бардык талааларды туура сандар менен толтуруңуз.",
+      unexpected: "Күтүлбөгөн ката кетти."
+    },
+    statuses: {
+      approved: "Бекитилди",
+      rejected: "Четке кагылды",
+      low: "Төмөн",
+      medium: "Орточо",
+      high: "Жогорку"
     }
   }
 } satisfies Record<
@@ -569,7 +650,7 @@ export function CreditForm({ language }: { language: Language }) {
                         : "border-rose-500/50 bg-rose-500/20 text-rose-400"
                     }`}
                   >
-                    {result.result}
+                    {t.statuses[result.result as keyof typeof t.statuses] || result.result}
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
@@ -581,7 +662,7 @@ export function CreditForm({ language }: { language: Language }) {
                 <div className="flex items-center justify-between">
                   <span className="text-slate-300">{t.risk}</span>
                   <span className={`rounded-full border px-3 py-1 text-sm font-semibold ${getRiskBadge(result.riskLevel)}`}>
-                    {result.riskLevel}
+                    {t.statuses[result.riskLevel as keyof typeof t.statuses] || result.riskLevel}
                   </span>
                 </div>
                 <div className="flex items-center justify-between">

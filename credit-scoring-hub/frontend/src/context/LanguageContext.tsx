@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 
-export type Language = "en" | "ru";
+export type Language = "en" | "ru" | "ky";
 
 type LanguageContextValue = {
   language: Language;
@@ -14,7 +14,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   useEffect(() => {
     const stored = localStorage.getItem("language");
-    if (stored === "en" || stored === "ru") {
+    if (stored === "en" || stored === "ru" || stored === "ky") {
       setLanguageState(stored);
     }
   }, []);

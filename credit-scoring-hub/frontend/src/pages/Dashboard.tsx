@@ -69,6 +69,26 @@ const text = {
     loading: "Загрузка аналитики...",
     error: "Не удалось загрузить аналитику.",
   },
+  ky: {
+    categories: "Категориялар",
+    dashboard: "Дашборд",
+    admin: "Админ панели",
+    logout: "Чыгуу",
+    welcome: "Кош келиңиз",
+    title: "Аналитикага сереп салуу",
+    subtitle:
+      "Бул баракчада скорингдик аналитика жана портфель сигналдары көрсөтүлгөн. Акыркы өтүнмөлөр админ панелинде гана көрүнөт.",
+    totalApplications: "Бардык өтүнмөлөр",
+    approvalRate: "Бекитүү деңгээли",
+    averageProbability: "Орточо ыктымалдуулук",
+    averageRecommendation: "Орточо сунуш",
+    trend: "Тренд",
+    trendTitle: "Ыктымалдуулуктун динамикасы",
+    riskMix: "Тобокелдик профили",
+    riskTitle: "Тобокелдиктерди бөлүштүрүү",
+    loading: "Аналитика жүктөлүүдө...",
+    error: "Аналитиканы жүктөө ишке ашкан жок.",
+  },
 } as const;
 
 function formatCurrency(value: number) {
@@ -162,13 +182,23 @@ export const Dashboard: React.FC = () => {
 
   const riskData = useMemo(
     () => [
-      { name: language === "ru" ? "Низкий" : "Low", value: stats.lowRiskCount },
       {
-        name: language === "ru" ? "Средний" : "Medium",
+        name:
+          language === "ru" ? "Низкий" : language === "ky" ? "Төмөн" : "Low",
+        value: stats.lowRiskCount,
+      },
+      {
+        name:
+          language === "ru"
+            ? "Средний"
+            : language === "ky"
+              ? "Орточо"
+              : "Medium",
         value: stats.mediumRiskCount,
       },
       {
-        name: language === "ru" ? "Высокий" : "High",
+        name:
+          language === "ru" ? "Высокий" : language === "ky" ? "Жогорку" : "High",
         value: stats.highRiskCount,
       },
     ],

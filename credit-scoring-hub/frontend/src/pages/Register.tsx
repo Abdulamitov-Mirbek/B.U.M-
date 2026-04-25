@@ -35,6 +35,21 @@ const text = {
     passwords: "Пароли не совпадают",
     passwordShort: "Пароль должен содержать минимум 6 символов",
   },
+  ky: {
+    title: "Санариптик банкка кирүү мүмкүнчүлүгүн ачыңыз",
+    fullName: "Толук аты-жөнү",
+    username: "Колдонуучунун аты",
+    email: "Email",
+    phone: "Телефон",
+    password: "Пароль",
+    confirmPassword: "Паролду ырастаңыз",
+    create: "Аккаунт түзүү",
+    creating: "Аккаунт түзүлүүдө...",
+    accountExists: "Аккаунтуңуз барбы?",
+    signIn: "Кирүү",
+    passwords: "Паролдор дал келбейт",
+    passwordShort: "Пароль кеминде 6 белгиден турушу керек",
+  },
 } as const;
 
 export const Register: React.FC = () => {
