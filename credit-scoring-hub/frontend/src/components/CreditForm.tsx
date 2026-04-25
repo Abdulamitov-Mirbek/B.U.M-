@@ -288,6 +288,7 @@ const text = {
     labels: Record<keyof FormInputs, string>;
     profileAxis: Record<"stability" | "affordability" | "history" | "debtLoad", string>;
     errors: Record<"submit" | "invalid" | "unexpected", string>;
+    statuses: Record<"approved" | "rejected" | "low" | "medium" | "high", string>;
   }
 >;
 
